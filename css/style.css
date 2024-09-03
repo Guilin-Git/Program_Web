@@ -13,6 +13,11 @@ button {
     padding: 10px 20px; 
 }
 
+#btn-bater-ponto{
+    display: block;
+    margin: 0 auto;
+}
+
 /* Estilo do dialog */
 dialog {
     position: relative; /* Necessário para posicionar o botão de fechar */

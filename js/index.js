@@ -1,4 +1,8 @@
-// Arquivo: js/index.js
+navigator.geolocation.getCurrentPosition((position) => {
+    console.log(position);
+})
+
+
 
 // Obtém referências aos elementos do DOM
 const diaSemana = document.getElementById("diaSemana");
@@ -9,9 +13,16 @@ const horario = document.getElementById("horario");
 const btnBaterPonto = document.getElementById("btn-bater-ponto");
 const dialogPonto = document.getElementById("dialog-ponto");
 
+// Obtém referência da hora e data no dialog
+const dialogData = document.getElementById("dialog-data"); // Atualizado para o ID correto
+const dialogHora = document.getElementById("dialog-hora"); // Atualizado para o ID correto
+
 // Adiciona o evento de clique ao botão "Bater Ponto!"
 btnBaterPonto.addEventListener("click", () => {
     dialogPonto.showModal(); // Abre o dialog
+    // Atualiza as informações de data e hora no dialog ao abrir
+    dialogData.textContent = "Data: " + getCurrentDate();
+    dialogHora.textContent = "Hora: " + getCurrentTime();
 });
 
 // Configura o botão de fechar no dialog
@@ -20,7 +31,7 @@ btnFechar.addEventListener("click", () => {
     dialogPonto.close(); // Fecha o dialog
 });
 
-// Atualiza as informações de data e hora
+// Atualiza as informações de data e hora fora do dialog
 diaMesAno.textContent = getCurrentDate();
 horario.textContent = getCurrentTime();
 diaSemana.textContent = getCurrentWeekDay();
@@ -61,5 +72,9 @@ function getCurrentTime() {
 
 // Atualiza a hora a cada 1000 milissegundos (1 segundo)
 setInterval(() => {
-    horario.textContent = getCurrentTime();
+    const currentTime = getCurrentTime();
+    horario.textContent = currentTime; // Atualiza a hora fora do dialog
+    if (dialogPonto.open) { // Verifica se o dialog está aberto
+        dialogHora.textContent = "Hora: " + currentTime; // Atualiza a hora dentro do dialog
+    }
 }, 1000);
