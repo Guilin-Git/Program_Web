@@ -1,0 +1,45 @@
+
+.data-hora {
+    text-align: center;
+    font-size: 24px; 
+}
+
+.data-hora p {
+    margin: 10px 0; 
+}
+
+button {
+    font-size: 18px; 
+    padding: 10px 20px; 
+}
+
+/* Estilo do dialog */
+dialog {
+    position: relative; /* Necessário para posicionar o botão de fechar */
+}
+
+/* Estilo do botão de fechar */
+#btn-fechar {
+    position: absolute; /* Posiciona o botão absolutamente dentro do dialog */
+    top: 10px; /* Distância do topo */
+    right: 10px; /* Distância da borda direita */
+    background: transparent; /* Fundo transparente */
+    border: none; /* Sem borda */
+    font-size: 24px; /* Tamanho do ícone "X" */
+    color: #333; /* Cor do ícone */
+    cursor: pointer; /* Cursor pointer para indicar que é clicável */
+    padding: 0; /* Remove o preenchimento padrão */
+}
+
+/* Adiciona efeito hover para o botão de fechar */
+#btn-fechar:hover {
+    color: #f00; /* Muda a cor ao passar o mouse */
+}
+
+#data {
+    font-size: 28px
+}
+
+#hora{
+    font-size: 28px
+}
