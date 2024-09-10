@@ -17,12 +17,18 @@
     <dialog id="dialog-ponto">
         <p id = "dialog-data">Data</p>
         <p id = "dialog-hora">Hora</p>
-        <button id="btn-entrada">Entrada</button>
-        <button id="btn-intervalo">Intervalo</button>
-        <button id="btn-volta-intervalo">Volta Intervalo</button>
-        <button id="btn-saida">Saída</button>
+        <select name="tipos-ponto" id="tipos-ponto">
+            <option value ="entrada">Entrada</option>
+            <option value ="intervalo">Intervalo</option>
+            <option value ="volta-intervalo">Volta do Intervalo</option>
+            <option value ="saida">Saida</option>
+        </select>
+        <button id="btn-registrar">Registrar Ponto</button>   
         <button id="btn-fechar">X</button>
-    </dialog>   
+    </dialog>
+    <div id="notification" class="notification">
+        <p id="notification-content"></p>
+    </div>   
     <script src="js/index.js"></script>
 </body> 
 </html>

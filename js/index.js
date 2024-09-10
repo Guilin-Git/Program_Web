@@ -2,7 +2,7 @@ navigator.geolocation.getCurrentPosition((position) => {
     console.log(position);
 })
 
-
+loadRegistros();
 
 // Obtém referências aos elementos do DOM
 const diaSemana = document.getElementById("diaSemana");
@@ -30,6 +30,13 @@ const btnFechar = document.getElementById("btn-fechar");
 btnFechar.addEventListener("click", () => {
     dialogPonto.close(); // Fecha o dialog
 });
+
+const btnRegistrarPonto = document.getElementById("btn-registrar");
+btnRegistrarPonto.addEventListener("click", () => {
+    RegistroPonto();
+    dialogPonto
+});
+
 
 // Atualiza as informações de data e hora fora do dialog
 diaMesAno.textContent = getCurrentDate();
@@ -78,3 +85,85 @@ setInterval(() => {
         dialogHora.textContent = "Hora: " + currentTime; // Atualiza a hora dentro do dialog
     }
 }, 1000);
+
+//Inicializa a lista para armazenar os registros de ponto
+let registroPonto = [];
+
+// Função para adicionar um ponto à lista de registros
+function RegistroPonto() {
+    const agora = new Date();
+    const id = Date.now(); // ID único baseado no timestamp atual
+    
+    // Obtém a data e hora atual
+    const data = getCurrentDate();
+    const hora = getCurrentTime();
+    const select = document.getElementById("tipos-ponto").value;
+    
+    // Obtém a localização
+    navigator.geolocation.getCurrentPosition((position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        
+        // Cria o objeto de registro
+        const registro = {
+            id: id,
+            select: select,
+            data: data,
+            hora: hora,
+            latitude: latitude,
+            longitude: longitude
+        };
+        
+        // Adiciona o registro à lista
+        registroPonto.push(registro);
+        console.log('Ponto registrado:', registro);
+        
+        // Salva o registro no localStorage
+        saveRegistroPonto(registro);
+        
+        // Exibe a notificação
+        showNotification(registro);
+    });
+}
+
+// Função para salvar o registro no localStorage
+function saveRegistroPonto(registro) {
+    // Obtém a lista de registros existente ou inicializa uma nova
+    let registros = JSON.parse(localStorage.getItem('registroPonto')) || [];
+    
+    // Adiciona o novo registro
+    registros.push(registro);
+    
+    // Salva a lista atualizada no localStorage
+    localStorage.setItem('registroPonto', JSON.stringify(registros));
+}
+
+// Função para carregar registros do localStorage (opcional)
+function loadRegistros() {
+    const registros = JSON.parse(localStorage.getItem('registroPonto')) || [];
+    // Se precisar, pode usar essa lista para exibir registros salvos, etc.
+    console.log('Registros carregados:', registros);
+}
+
+// Função para exibir a notificação
+function showNotification(registro) {
+    const notification = document.getElementById("notification");
+    const notificationContent = document.getElementById("notification-content");
+    
+    // Define o conteúdo da notificação
+    notificationContent.textContent = `Ponto registrado! Tipo: ${registro.select}, Data: ${registro.data}, Hora: ${registro.hora}`;
+    
+    // Exibe a notificação
+    notification.classList.add("show");
+    
+    // Oculta a notificação após 3 segundos
+    setTimeout(() => {
+        notification.classList.remove("show");
+        notification.classList.add("hide");
+    }, 3000);
+    
+    // Remove a classe de ocultar após o efeito de fade-out ter terminado
+    setTimeout(() => {
+        notification.classList.remove("hide");
+    }, 3500);
+}

@@ -48,3 +48,67 @@ dialog {
 #hora{
     font-size: 28px
 }
+
+/* Container para o select e o botão */
+.container {
+    display: flex; /* Alinha os elementos horizontalmente */
+    align-items: center; /* Alinha os itens no centro verticalmente */
+    gap: 10px; /* Espaço entre o select e o botão */
+    width: 100%; /* Largura do container */
+}
+
+/* Estilo para o select */
+#tipos-ponto {
+    flex: 1; /* Permite que o select ocupe o espaço disponível restante */
+    height: 50px; /* Ajuste a altura para coincidir com o botão */
+    font-size: 18px; /* Tamanho da fonte do select */
+    padding: 10px; /* Preenchimento interno */
+    box-sizing: border-box; /* Inclui bordas e preenchimento na largura total */
+    border: 2px solid #ccc; /* Aumenta a espessura da borda */
+    border-radius: 4px; /* Arredondamento dos cantos */
+    background-color: white; /* Cor de fundo do select */
+    color: black; /* Cor do texto do select */
+}
+
+/* Estilo para o botão de registrar ponto */
+#btn-registrar-ponto {
+    flex: 1; /* Permite que o botão ocupe o espaço disponível restante */
+    height: 50px; /* Ajuste a altura para coincidir com o select */
+    font-size: 18px; /* Tamanho da fonte do botão */
+    padding: 10px; /* Preenchimento interno */
+    box-sizing: border-box; /* Inclui bordas e preenchimento na largura total */
+    border: 2px solid #ccc; /* Aumenta a espessura da borda */
+    border-radius: 4px; /* Arredondamento dos cantos */
+    background-color: white; /* Cor de fundo do botão */
+    color: black; /* Cor do texto do botão */
+}
+
+/* CSS para a caixa de notificação */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #f0f0f0; /* Cor de fundo mais clara para combinar com o estilo do botão */
+    color: #333; /* Cor do texto mais escura */
+    padding: 15px 25px; /* Aumenta o padding para uma aparência mais espaçosa */
+    border-radius: 8px; /* Arredondamento mais suave dos cantos */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adiciona uma sombra leve */
+    opacity: 0; /* Começa invisível */
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Adiciona transição de transformação */
+    z-index: 1000; /* Garante que esteja acima de outros elementos */
+    font-size: 16px; /* Ajusta o tamanho da fonte */
+    max-width: 300px; /* Define uma largura máxima */
+    text-align: center; /* Centraliza o texto */
+}
+
+/* Estado visível */
+.notification.show {
+    opacity: 1;
+    transform: translateY(0); /* Move para a posição original */
+}
+
+/* Estado oculto */
+.notification.hide {
+    opacity: 0;
+    transform: translateY(20px); /* Move para fora da tela */
+}
