@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="PT-BR">
 <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de controle de ponto</title>
@@ -8,22 +9,27 @@
 </head>
 <body>
     <div class="data-hora">
-        <p id="diaSemana">Segunda-feira</p>
-        <p id="diaMesAno">26/08/2024</p>
-        <p id="horario">08:34:24</p>
+        <p id="horario"></p>
+        <p id="diaSemana"></p>
+        <p id="diaMesAno"></p>
     </div>
+    <img src="images/Marca-ceub-versao-positiva-lilas-1024x791.png" alt="Descrição da Imagem" class="data-hora-imagem">
     <button id="btn-bater-ponto">Bater Ponto!</button> 
     
     <dialog id="dialog-ponto">
-        <p id = "dialog-data">Data</p>
-        <p id = "dialog-hora">Hora</p>
+        <p id="dialog-data">Data</p>
+        <p id="dialog-hora">Hora</p>
         <select name="tipos-ponto" id="tipos-ponto">
-            <option value ="entrada">Entrada</option>
-            <option value ="intervalo">Intervalo</option>
-            <option value ="volta-intervalo">Volta do Intervalo</option>
-            <option value ="saida">Saida</option>
+            <option value="entrada">Entrada</option>
+            <option value="intervalo">Intervalo</option>
+            <option value="volta-intervalo">Volta do Intervalo</option>
+            <option value="saida">Saída</option>
         </select>
-        <button id="btn-registrar">Registrar Ponto</button>   
+        <button id="btn-registrar">Registrar Ponto</button> 
+        <p id="ultimoRegistroTitulo"></p>
+        <p id="ultimoRegistroTipo"></p>
+        <p id="ultimoRegistroData"></p>
+        <p id="ultimoRegistroHora"></p>  
         <button id="btn-fechar">X</button>
     </dialog>
     <div id="notification" class="notification">

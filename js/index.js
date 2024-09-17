@@ -17,12 +17,26 @@ const dialogPonto = document.getElementById("dialog-ponto");
 const dialogData = document.getElementById("dialog-data"); // Atualizado para o ID correto
 const dialogHora = document.getElementById("dialog-hora"); // Atualizado para o ID correto
 
-// Adiciona o evento de clique ao botão "Bater Ponto!"
+// Atualiza o conteúdo do diálogo ao clicar no botão
 btnBaterPonto.addEventListener("click", () => {
     dialogPonto.showModal(); // Abre o dialog
+    
     // Atualiza as informações de data e hora no dialog ao abrir
     dialogData.textContent = "Data: " + getCurrentDate();
     dialogHora.textContent = "Hora: " + getCurrentTime();
+    
+    // Atualiza o modal com o último registro, se disponível
+    if (ultimoRegistro) {
+        document.getElementById("ultimoRegistroTipo").textContent = "Tipo: " + ultimoRegistro.select;
+        document.getElementById("ultimoRegistroData").textContent = "Data: " + ultimoRegistro.data;
+        document.getElementById("ultimoRegistroHora").textContent = "Hora: " + ultimoRegistro.hora;
+        document.getElementById("ultimoRegistroTitulo").textContent = "Último ponto registrado:";
+    } else {
+        document.getElementById("ultimoRegistroTitulo").textContent = "Último ponto registrado:";
+        document.getElementById("ultimoRegistroTipo").textContent = "";
+        document.getElementById("ultimoRegistroData").textContent = "";
+        document.getElementById("ultimoRegistroHora").textContent = "";
+    } 
 });
 
 // Configura o botão de fechar no dialog
@@ -34,9 +48,8 @@ btnFechar.addEventListener("click", () => {
 const btnRegistrarPonto = document.getElementById("btn-registrar");
 btnRegistrarPonto.addEventListener("click", () => {
     RegistroPonto();
-    dialogPonto
+    dialogPonto.close(); // Fecha o dialog após registrar o ponto
 });
-
 
 // Atualiza as informações de data e hora fora do dialog
 diaMesAno.textContent = getCurrentDate();
@@ -86,8 +99,11 @@ setInterval(() => {
     }
 }, 1000);
 
-//Inicializa a lista para armazenar os registros de ponto
+// Inicializa a lista para armazenar os registros de ponto
 let registroPonto = [];
+
+// Inicializa a variável global para armazenar o último ponto registrado
+let ultimoRegistro = null;
 
 // Função para adicionar um ponto à lista de registros
 function RegistroPonto() {
@@ -116,6 +132,7 @@ function RegistroPonto() {
         
         // Adiciona o registro à lista
         registroPonto.push(registro);
+        ultimoRegistro = registro; // Atualiza o último registro
         console.log('Ponto registrado:', registro);
         
         // Salva o registro no localStorage
@@ -156,11 +173,11 @@ function showNotification(registro) {
     // Exibe a notificação
     notification.classList.add("show");
     
-    // Oculta a notificação após 3 segundos
+    // Oculta a notificação após 5 segundos
     setTimeout(() => {
         notification.classList.remove("show");
         notification.classList.add("hide");
-    }, 3000);
+    }, 5000);
     
     // Remove a classe de ocultar após o efeito de fade-out ter terminado
     setTimeout(() => {
