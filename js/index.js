@@ -157,6 +157,7 @@ function saveRegistroPonto(registro) {
 
 // Função para carregar registros do localStorage (opcional)
 function loadRegistros() {
+
     const registros = JSON.parse(localStorage.getItem('registroPonto')) || [];
     // Se precisar, pode usar essa lista para exibir registros salvos, etc.
     console.log('Registros carregados:', registros);
