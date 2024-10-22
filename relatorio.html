@@ -8,6 +8,14 @@
 </head>
 <body>
     <h1>Registros de Pontos</h1>
+
+    <label for="filtro-periodo">Filtrar por período:</label>
+    <select id="filtro-periodo" onchange="loadRegistros()">
+    <option value="todos">Todos</option>
+    <option value="ultima-semana">Última Semana</option>
+    <option value="ultimo-mes">Último Mês</option>
+</select>
+
     <table>
         <thead>
             <tr>
@@ -28,7 +36,12 @@
     <dialog id="modal-edicao">
         <form method="dialog">
             <label for="modal-select">Selecionar:</label>
-            <input type="text" id="modal-select" required>
+            <select id="modal-select" required>
+                <option value="entrada">Entrada</option>
+                <option value="intervalo">Intervalo</option>
+                <option value="volta-intervalo">Volta do Intervalo</option>
+                <option value="saida">Saída</option>
+            </select>
             
             <label for="modal-data">Data:</label>
             <input type="date" id="modal-data" required>

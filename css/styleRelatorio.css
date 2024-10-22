@@ -41,19 +41,22 @@ th {
 }
 
 /* Estilo para datas passadas */
-.passado {
-    background-color: #ffe6e6; /* Cor de fundo para datas passadas */
+.data-passada {
+    background-color: #f8d7da; /* Cor de fundo vermelho claro para destacar registros passados */
+    color: #721c24; /* Cor do texto vermelho escuro */
+}
+
+/* Estilo para registros do dia atual */
+.data-hoje {
+    background-color: #ffffff; /* Cor de fundo branca */
+    color: #333; /* Cor do texto padrão */
 }
 
 /* Estilo para registros com observação */
 .observado {
-    background-color: #e0f7fa; /* Cor de fundo para observações */
+    background-color: #f2e6ff; /* Cor de fundo lilás claro para observações */
 }
 
-/* Estilo para registros editados */
-.editado {
-    border-left: 4px solid #ff9800; /* Borda lateral para indicar edição */
-}
 
 /* Estilo do botão */
 button {
@@ -72,19 +75,4 @@ button {
 button:hover {
     background-color: #8e44ad; /* Roxo mais escuro */
     transform: scale(1.05); /* Leve aumento ao passar o mouse */
-}
-
-/* Estilo para registros com observação */
-.observado {
-    background-color: #f2e6ff; /* Cor de fundo suave lilás claro para observações */
-}
-
-/* Estilo para registros editados */
-.editado {
-    border: 2px solid #6a0dad; /* Borda roxa para registros editados */
-}
-
-.data-passada {
-    background-color: #f8d7da; /* Cor de fundo para destacar registros passados */
-    color: #721c24; /* Cor do texto */
 }

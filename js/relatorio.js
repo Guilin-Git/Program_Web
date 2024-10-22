@@ -8,35 +8,74 @@ function loadRegistros() {
     // Limpa a tabela antes de adicionar novos registros
     tabela.innerHTML = '';
 
-    const dataAtual = new Date().toISOString().split('T')[0]; // Formato yyyy-mm-dd
+    // Obtém o período selecionado
+    const filtroPeriodo = document.getElementById('filtro-periodo').value;
+
+    // Obtém a data atual
+    const hoje = new Date();
+
+    // Calcula as datas limite para os filtros
+    let dataLimite;
+    if (filtroPeriodo === 'ultima-semana') {
+        dataLimite = new Date(hoje);
+        dataLimite.setDate(hoje.getDate() - 7); // 7 dias atrás
+    } else if (filtroPeriodo === 'ultimo-mes') {
+        dataLimite = new Date(hoje);
+        dataLimite.setMonth(hoje.getMonth() - 1); // 1 mês atrás
+    } else {
+        dataLimite = null; // Para 'todos', não há limite de data
+    }
+
+    const dataAtual = hoje.toISOString().split('T')[0]; // Formato yyyy-mm-dd
 
     registros.forEach((registro, index) => {
-        const tr = document.createElement('tr');
-        const observacaoClass = registro.observacao ? 'observado' : '';
-        const editadoClass = registro.editado ? 'editado' : '';
-        const dataRegistro = registro.data.split('/').reverse().join('-'); // Formato dd/mm/yyyy para yyyy-mm-dd
+        const dataRegistro = new Date(registro.data.split('/').reverse().join('-')); // Converte para objeto Date
+        const dataRegistroFormatada = dataRegistro.toISOString().split('T')[0]; // Formato yyyy-mm-dd
 
-        // Verifica se a data é passada
-        const dataPassadaClass = dataRegistro < dataAtual ? 'data-passada' : '';
+        // Verifica se a data está dentro do período selecionado
+        if (!dataLimite || dataRegistro >= dataLimite) {
+            const tr = document.createElement('tr');
+            const observacaoClass = registro.observacao ? 'observado' : '';
 
-        tr.className = `${observacaoClass} ${editadoClass} ${dataPassadaClass}`;
-        tr.innerHTML = `
-            <td>${registro.select}</td>
-            <td>${registro.data}</td>
-            <td>${registro.hora}</td>
-            <td>${registro.latitude}</td>
-            <td>${registro.longitude}</td>
-            <td>
+            // Verifica se a data é passada
+            const dataPassadaClass = dataRegistroFormatada < dataAtual ? 'data-passada' : '';
+
+            // Adiciona a célula da data diretamente na linha
+            const tdData = `<td class="${dataPassadaClass}">${registro.data}</td>`;
+            
+            // Adiciona a célula de observação
+            const tdObservacao = `<td class="${observacaoClass}">
                 <input type="text" value="${registro.observacao || ''}" 
                        onchange="adicionarObservacao(${index}, this.value)" placeholder="Adicionar observação">
-            </td>
-            <td>
-                <button onclick="abrirModalEdicao(${index})">Editar</button>
-                <button onclick="deletarRegistro(${index})">Deletar</button> <!-- Botão para deletar -->
-            </td>
-        `;
-        tabela.appendChild(tr);
+            </td>`;
+            
+            tr.innerHTML = `
+                <td>${registro.select}</td>
+                ${tdData}
+                <td>${registro.hora}</td>
+                <td>${registro.latitude}</td>
+                <td>${registro.longitude}</td>
+                ${tdObservacao}
+                <td>
+                    <button onclick="abrirModalEdicao(${index})">Editar</button>
+                    <button onclick="deletarRegistro(${index})">Deletar</button> <!-- Botão para deletar -->
+                </td>
+            `;
+            tabela.appendChild(tr);
+        }
     });
+}
+function calcularDataLimite(filtro) {
+    const hoje = new Date();
+    let limite = new Date();
+
+    if (filtro === 'ultima-semana') {
+        limite.setDate(hoje.getDate() - 7);
+    } else if (filtro === 'ultimo-mes') {
+        limite.setMonth(hoje.getMonth() - 1);
+    }
+
+    return limite;
 }
 
 function adicionarObservacao(index, observacao) {
@@ -56,8 +95,8 @@ function abrirModalEdicao(index) {
 
     // Preenche o modal com os dados do registro
     document.getElementById('modal-select').value = registro.select;
-    document.getElementById('modal-data').value = registro.data;
-    
+    document.getElementById('modal-data').value = registro.data.split('/').reverse().join('-'); // Corrigido para o formato yyyy-mm-dd
+
     // Divide a hora em horas, minutos e segundos
     const [hora, minuto, segundo] = registro.hora.split(':');
     document.getElementById('modal-hora').value = hora || '00';
@@ -81,7 +120,7 @@ function salvarEdicao() {
 
     // Atualiza os valores do registro
     registros[index].select = document.getElementById('modal-select').value;
-    
+
     // Obtém a data e garante que não é futura
     const novaData = document.getElementById('modal-data').value;
     const dataAtual = new Date().toISOString().split('T')[0]; // Formato yyyy-mm-dd
@@ -91,46 +130,28 @@ function salvarEdicao() {
     }
     registros[index].data = formatarData(novaData); // Formata a data
 
-    // Obtém a hora, minuto e segundo
-    const hora = document.getElementById('modal-hora').value.padStart(2, '0');
-    const minuto = document.getElementById('modal-minuto').value.padStart(2, '0');
-    const segundo = document.getElementById('modal-segundo').value.padStart(2, '0');
-
-    registros[index].hora = `${hora}:${minuto}:${segundo}`; // Formata a hora
-
+    registros[index].hora = `${document.getElementById('modal-hora').value}:${document.getElementById('modal-minuto').value}:${document.getElementById('modal-segundo').value}`;
     registros[index].latitude = document.getElementById('modal-latitude').value;
     registros[index].longitude = document.getElementById('modal-longitude').value;
     registros[index].observacao = document.getElementById('modal-observacao').value;
 
-    // Salva as edições no localStorage
+    // Atualiza a flag de editado
+    registros[index].editado = true;
+
     localStorage.setItem('registroPonto', JSON.stringify(registros));
     loadRegistros(); // Recarrega a tabela
-
-    // Fecha o modal
-    document.getElementById('modal-edicao').close();
+    document.getElementById('modal-edicao').close(); // Fecha o modal
 }
 
-// Função para formatar a data para dia/mês/ano
 function formatarData(data) {
-    const partes = data.split('-'); // Divide a data no formato yyyy-mm-dd
-    return `${partes[2]}/${partes[1]}/${partes[0]}`; // Retorna no formato dd/mm/yyyy
+    const [ano, mes, dia] = data.split('-');
+    return `${dia}/${mes}/${ano}`; // Formato dd/mm/yyyy
 }
 
-// Função para deletar registro
-function deletarRegistro(index) {
-    const registros = JSON.parse(localStorage.getItem('registroPonto')) || [];
-
-    // Remove o registro do array
-    registros.splice(index, 1);
-
-    // Atualiza o localStorage
-    localStorage.setItem('registroPonto', JSON.stringify(registros));
-
-    // Recarrega a tabela para refletir a remoção
-    loadRegistros();
-}
-
-// Configura o botão de fechar no modal
 document.getElementById('btn-fechar-modal').addEventListener('click', () => {
     document.getElementById('modal-edicao').close();
 });
+
+function filtrarRegistros() {
+    loadRegistros(); // Recarrega os registros com base no filtro selecionado
+}
