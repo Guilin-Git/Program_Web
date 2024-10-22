@@ -1,6 +1,6 @@
 navigator.geolocation.getCurrentPosition((position) => {
     console.log(position);
-})
+});
 
 loadRegistros();
 
@@ -14,8 +14,12 @@ const btnBaterPonto = document.getElementById("btn-bater-ponto");
 const dialogPonto = document.getElementById("dialog-ponto");
 
 // Obtém referência da hora e data no dialog
-const dialogData = document.getElementById("dialog-data"); // Atualizado para o ID correto
-const dialogHora = document.getElementById("dialog-hora"); // Atualizado para o ID correto
+const dialogData = document.getElementById("dialog-data");
+const dialogHora = document.getElementById("dialog-hora");
+
+// Configura o campo de data para não permitir datas futuras
+const dataPonto = document.getElementById("dataPonto");
+dataPonto.max = getCurrentDateForInput(); // Configura o valor máximo
 
 // Atualiza o conteúdo do diálogo ao clicar no botão
 btnBaterPonto.addEventListener("click", () => {
@@ -45,10 +49,18 @@ btnFechar.addEventListener("click", () => {
     dialogPonto.close(); // Fecha o dialog
 });
 
+// Configura o botão de registrar ponto
 const btnRegistrarPonto = document.getElementById("btn-registrar");
 btnRegistrarPonto.addEventListener("click", () => {
+    console.log("Botão de registrar ponto clicado."); // Log para verificar se o botão foi clicado
     RegistroPonto();
     dialogPonto.close(); // Fecha o dialog após registrar o ponto
+});
+
+// Função para ir para a página de relatório
+const btnIrRelatorio = document.getElementById("btn-ir-relatorio");
+btnIrRelatorio.addEventListener("click", () => {
+    window.location.href = "relatorio.html"; // Altere "relatorio.html" para o caminho do seu arquivo de relatório
 });
 
 // Atualiza as informações de data e hora fora do dialog
@@ -66,6 +78,12 @@ function getCurrentDate() {
         "/" +
         date.getFullYear()
     );
+}
+
+// Função para obter a data atual no formato para o input (YYYY-MM-DD)
+function getCurrentDateForInput() {
+    const date = new Date();
+    return date.toISOString().split("T")[0];
 }
 
 // Função para obter o dia da semana atual
@@ -110,8 +128,10 @@ function RegistroPonto() {
     const agora = new Date();
     const id = Date.now(); // ID único baseado no timestamp atual
     
-    // Obtém a data e hora atual
-    const data = getCurrentDate();
+    // Verifica se o usuário selecionou uma data ou usa a atual
+    const dataSelecionada = dataPonto.value ? formatDateForDisplay(dataPonto.value) : getCurrentDate();
+    
+    // Obtém a hora atual
     const hora = getCurrentTime();
     const select = document.getElementById("tipos-ponto").value;
     
@@ -124,7 +144,7 @@ function RegistroPonto() {
         const registro = {
             id: id,
             select: select,
-            data: data,
+            data: dataSelecionada,
             hora: hora,
             latitude: latitude,
             longitude: longitude
@@ -137,9 +157,11 @@ function RegistroPonto() {
         
         // Salva o registro no localStorage
         saveRegistroPonto(registro);
-        
+
         // Exibe a notificação
         showNotification(registro);
+    }, (error) => {
+        console.error("Erro ao obter localização: ", error);
     });
 }
 
@@ -155,11 +177,9 @@ function saveRegistroPonto(registro) {
     localStorage.setItem('registroPonto', JSON.stringify(registros));
 }
 
-// Função para carregar registros do localStorage (opcional)
+// Função para carregar registros do localStorage
 function loadRegistros() {
-
     const registros = JSON.parse(localStorage.getItem('registroPonto')) || [];
-    // Se precisar, pode usar essa lista para exibir registros salvos, etc.
     console.log('Registros carregados:', registros);
 }
 
@@ -184,4 +204,10 @@ function showNotification(registro) {
     setTimeout(() => {
         notification.classList.remove("hide");
     }, 3500);
+}
+
+// Função para formatar a data no estilo brasileiro (dd/mm/yyyy)
+function formatDateForDisplay(dateStr) {
+    const [year, month, day] = dateStr.split("-");
+    return `${day}/${month}/${year}`;
 }

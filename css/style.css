@@ -89,6 +89,27 @@ body {
     transform: scale(1.05); /* Leve aumento ao passar o mouse */
 }
 
+/* Estilo do botão de ir para relatório */
+#btn-ir-relatorio {
+    font-size: 50px; /* Tamanho da fonte do botão */
+    padding: 12px 24px; /* Espaçamento interno */
+    border: none; /* Remove bordas padrão */
+    border-radius: 8px; /* Cantos arredondados */
+    background-color: #6a0dad; /* Roxo escuro */
+    color: white; /* Texto branco */
+    cursor: pointer; /* Indica que é clicável */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transição suave */
+    margin: 20px; /* Espaçamento ao redor do botão */
+    display: block;
+    margin: 0 auto;
+}
+
+/* Efeito hover para o botão de ir para relatório */
+#btn-ir-relatorio:hover {
+    background-color: #5a0a9e; /* Roxo mais escuro ao passar o mouse */
+    transform: scale(1.05); /* Leve aumento ao passar o mouse */
+}
+
 /* Estilo do botão de registrar ponto */
 #btn-registrar {
     font-size: 16px; /* Tamanho da fonte do botão */

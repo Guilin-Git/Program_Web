@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registros de Pontos</title>
+    <link rel="stylesheet" href="css/styleRelatorio.css">
+</head>
+<body>
+    <h1>Registros de Pontos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Observação</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-registros"></tbody>
+    </table>
+    <button onclick="window.location.href='index.html'">Voltar</button>
+
+    <!-- Modal de Edição -->
+    <dialog id="modal-edicao">
+        <form method="dialog">
+            <label for="modal-select">Selecionar:</label>
+            <input type="text" id="modal-select" required>
+            
+            <label for="modal-data">Data:</label>
+            <input type="date" id="modal-data" required>
+            
+            <label for="modal-hora">Hora:</label>
+            <input type="number" id="modal-hora" min="0" max="23" placeholder="HH" required> :
+            <input type="number" id="modal-minuto" min="0" max="59" placeholder="MM" required> :
+            <input type="number" id="modal-segundo" min="0" max="59" placeholder="SS" required>
+            
+            <label for="modal-latitude">Latitude:</label>
+            <input type="text" id="modal-latitude" required>
+            
+            <label for="modal-longitude">Longitude:</label>
+            <input type="text" id="modal-longitude" required>
+            
+            <label for="modal-observacao">Observação:</label>
+            <input type="text" id="modal-observacao">
+            
+            <input type="hidden" id="modal-index">
+            <button type="submit" onclick="salvarEdicao()">Salvar</button>
+            <button type="button" id="btn-fechar-modal">Fechar</button>
+        </form>
+    </dialog>
+
+    <script src="js/relatorio.js"></script>
+</body>
+</html>
