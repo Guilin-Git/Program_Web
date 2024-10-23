@@ -46,11 +46,6 @@ th {
     color: #721c24; /* Cor do texto vermelho escuro */
 }
 
-/* Estilo para registros do dia atual */
-.data-hoje {
-    background-color: #ffffff; /* Cor de fundo branca */
-    color: #333; /* Cor do texto padrão */
-}
 
 /* Estilo para registros com observação */
 .observado {
@@ -75,4 +70,10 @@ button {
 button:hover {
     background-color: #8e44ad; /* Roxo mais escuro */
     transform: scale(1.05); /* Leve aumento ao passar o mouse */
+}
+
+.data-separador {
+    font-weight: bold;
+    background-color: #f0f0f0; /* ou qualquer cor desejada */
+    text-align: center;
 }

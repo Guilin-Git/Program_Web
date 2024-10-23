@@ -11,14 +11,17 @@
 
     <label for="filtro-periodo">Filtrar por período:</label>
     <select id="filtro-periodo" onchange="loadRegistros()">
-    <option value="todos">Todos</option>
-    <option value="ultima-semana">Última Semana</option>
-    <option value="ultimo-mes">Último Mês</option>
-</select>
+        <option value="todos">Todos</option>
+        <option value="ultima-semana">Última Semana</option>
+        <option value="ultimo-mes">Último Mês</option>
+    </select>
 
     <table>
         <thead>
             <tr>
+                <th>Nome</th>
+                <th>Sobrenome</th>
+                <th>CPF</th>
                 <th>Tipo</th>
                 <th>Data</th>
                 <th>Hora</th>

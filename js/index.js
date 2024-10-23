@@ -80,10 +80,12 @@ function getCurrentDate() {
     );
 }
 
-// Função para obter a data atual no formato para o input (YYYY-MM-DD)
+// Função para obter a data atual no formato YYYY-MM-DD, ajustado para o fuso horário local
 function getCurrentDateForInput() {
     const date = new Date();
-    return date.toISOString().split("T")[0];
+    const timezoneOffset = new Date().getTimezoneOffset() * 60000; // Converte o offset para milissegundos
+    const localISOTime = new Date(Date.now() - timezoneOffset).toISOString().split("T")[0];
+    return localISOTime;
 }
 
 // Função para obter o dia da semana atual
@@ -123,7 +125,6 @@ let registroPonto = [];
 // Inicializa a variável global para armazenar o último ponto registrado
 let ultimoRegistro = null;
 
-// Função para adicionar um ponto à lista de registros
 function RegistroPonto() {
     const agora = new Date();
     const id = Date.now(); // ID único baseado no timestamp atual
@@ -131,9 +132,23 @@ function RegistroPonto() {
     // Verifica se o usuário selecionou uma data ou usa a atual
     const dataSelecionada = dataPonto.value ? formatDateForDisplay(dataPonto.value) : getCurrentDate();
     
+    // Obtém a data atual com fuso horário ajustado
+    const dataAtual = getCurrentDateForInput(); // Usa o formato YYYY-MM-DD
+    
+    // Verifica se a data selecionada é maior que a data atual
+    if (dataPonto.value > dataAtual) {
+        alert("Não é possível registrar um ponto em uma data futura.");
+        return; // Interrompe a execução se a data for inválida
+    }
+    
     // Obtém a hora atual
     const hora = getCurrentTime();
     const select = document.getElementById("tipos-ponto").value;
+
+    // Obtém o nome, sobrenome e CPF
+    const nome = document.getElementById("nome").value;
+    const sobrenome = document.getElementById("sobrenome").value;
+    const cpf = document.getElementById("cpf").value;
     
     // Obtém a localização
     navigator.geolocation.getCurrentPosition((position) => {
@@ -147,7 +162,10 @@ function RegistroPonto() {
             data: dataSelecionada,
             hora: hora,
             latitude: latitude,
-            longitude: longitude
+            longitude: longitude,
+            nome: nome,
+            sobrenome: sobrenome,
+            cpf: cpf 
         };
         
         // Adiciona o registro à lista
@@ -164,6 +182,7 @@ function RegistroPonto() {
         console.error("Erro ao obter localização: ", error);
     });
 }
+
 
 // Função para salvar o registro no localStorage
 function saveRegistroPonto(registro) {
@@ -211,3 +230,4 @@ function formatDateForDisplay(dateStr) {
     const [year, month, day] = dateStr.split("-");
     return `${day}/${month}/${year}`;
 }
+
