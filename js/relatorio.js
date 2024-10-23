@@ -28,6 +28,11 @@ function loadRegistros() {
         // Verifica se a data está dentro do período selecionado e não é futura
         if ((!dataLimite || dataRegistro >= dataLimite) && dataRegistro <= hoje) {
             const tr = document.createElement('tr');
+
+            if (registro.editado) {
+                tr.classList.add('registro-editado');
+            }
+            
             const observacaoClass = registro.observacao ? 'observado' : '';
 
             // Verifica se a data é a data de hoje ou é passada
@@ -40,6 +45,9 @@ function loadRegistros() {
                        onchange="adicionarObservacao(${index}, this.value)" placeholder="Adicionar observação">
             </td>`;
 
+            const tdJustificativa = `<td>${registro.justificativa || ''}</td>`;
+            const tdArquivo = registro.arquivoUrl ? `<td><a href="${registro.arquivoUrl}" download="${registro.nomeArquivo}">Baixar Arquivo</a></td>` : '<td></td>';
+
             tr.innerHTML = `
                 <td>${registro.nome}</td>
                 <td>${registro.sobrenome}</td>
@@ -50,6 +58,8 @@ function loadRegistros() {
                 <td>${registro.latitude}</td>
                 <td>${registro.longitude}</td>
                 ${tdObservacao}
+                ${tdJustificativa}
+                ${tdArquivo}
                 <td>
                     <button onclick="abrirModalEdicao(${index})">Editar</button>
                     <button onclick="deletarRegistro(${index})">Deletar</button>
@@ -57,7 +67,7 @@ function loadRegistros() {
             `;
             tabela.appendChild(tr);
         }
-    });
+    });   
 }
 
 function adicionarObservacao(index, observacao) {
@@ -144,9 +154,5 @@ function filtrarRegistros() {
 }
 
 function deletarRegistro(index) {
-    const registros = JSON.parse(localStorage.getItem('registroPonto')) || [];
-    registros.splice(index, 1); // Remove o registro pelo índice
-
-    localStorage.setItem('registroPonto', JSON.stringify(registros));
-    loadRegistros(); // Recarrega a tabela após a exclusão
+    alert('Não é possivel deletar um ponto já cadastrado no sistema.');
 }

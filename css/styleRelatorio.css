@@ -19,7 +19,7 @@ h1 {
 
 /* Estilo da tabela */
 table {
-    width: 90%; /* Largura da tabela */
+    width: 95%; /* Largura da tabela */
     border-collapse: collapse; /* Remove espaço entre células */
     margin-top: 20px; /* Margem superior */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
@@ -76,4 +76,10 @@ button:hover {
     font-weight: bold;
     background-color: #f0f0f0; /* ou qualquer cor desejada */
     text-align: center;
+}
+
+.registro-editado {
+    background-color: #fff3cd; /* Cor de fundo diferenciada */
+    color: #856404; /* Cor de texto mais escura */
+    font-weight: bold; /* Texto em negrito */
 }

@@ -149,7 +149,24 @@ function RegistroPonto() {
     const nome = document.getElementById("nome").value;
     const sobrenome = document.getElementById("sobrenome").value;
     const cpf = document.getElementById("cpf").value;
-    
+
+    // Obtém a justificativa, se houver
+    const justificativa = document.getElementById("justificativa").value;
+    let nomeArquivo = '';
+
+    // Obtém o arquivo, se houver
+    const arquivo = document.getElementById('arquivo').files[0];
+    let arquivoUrl = '';
+
+    if (arquivo) {
+        nomeArquivo = arquivo.name;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            arquivoUrl = e.target.result; // Base64 do arquivo
+        };
+        reader.readAsDataURL(arquivo);
+    }
+
     // Obtém a localização
     navigator.geolocation.getCurrentPosition((position) => {
         const latitude = position.coords.latitude;
@@ -165,7 +182,11 @@ function RegistroPonto() {
             longitude: longitude,
             nome: nome,
             sobrenome: sobrenome,
-            cpf: cpf 
+            cpf: cpf,
+            justificativa: justificativa || '',
+            arquivoUrl: arquivoUrl || '',
+            nomeArquivo: nomeArquivo || ''
+
         };
         
         // Adiciona o registro à lista
