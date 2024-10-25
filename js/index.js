@@ -60,7 +60,7 @@ btnRegistrarPonto.addEventListener("click", () => {
 // Função para ir para a página de relatório
 const btnIrRelatorio = document.getElementById("btn-ir-relatorio");
 btnIrRelatorio.addEventListener("click", () => {
-    window.location.href = "relatorio.html"; // Altere "relatorio.html" para o caminho do seu arquivo de relatório
+    window.location.href = "relatorio.html"; 
 });
 
 // Atualiza as informações de data e hora fora do dialog
@@ -119,6 +119,40 @@ setInterval(() => {
     }
 }, 1000);
 
+
+
+// Função para validar o CPF
+function validarCPF(cpf) {
+    cpf = cpf.replace(/\D/g, ''); // Remove caracteres não numéricos
+
+    // Verifica se o CPF tem 11 dígitos ou se todos os números são iguais
+    if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+
+    let soma = 0;
+    let resto;
+
+    // Calcula o primeiro dígito verificador
+    for (let i = 1; i <= 9; i++) {
+        soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+    }
+    resto = (soma * 10) % 11;
+    if ((resto === 10) || (resto === 11)) resto = 0;
+    if (resto !== parseInt(cpf.substring(9, 10))) return false;
+
+    soma = 0;
+
+    // Calcula o segundo dígito verificador
+    for (let i = 1; i <= 10; i++) {
+        soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+    }
+    resto = (soma * 10) % 11;
+    if ((resto === 10) || (resto === 11)) resto = 0;
+    if (resto !== parseInt(cpf.substring(10, 11))) return false;
+
+    return true;
+}
+
+
 // Inicializa a lista para armazenar os registros de ponto
 let registroPonto = [];
 
@@ -149,6 +183,22 @@ function RegistroPonto() {
     const nome = document.getElementById("nome").value;
     const sobrenome = document.getElementById("sobrenome").value;
     const cpf = document.getElementById("cpf").value;
+
+    if (nome == '') {
+        alert("O nome é um campo obrigatório")
+        return;
+    }
+
+    if (sobrenome == '') {
+        alert("O sobrenome é um campo obrigatório")
+        return;
+    }
+
+     // Validação do CPF
+     if (!validarCPF(cpf)) {
+        alert("CPF inválido. Por favor, insira um CPF válido.");
+        return; // Interrompe o registro se o CPF for inválido
+    }
 
     // Obtém a justificativa, se houver
     const justificativa = document.getElementById("justificativa").value;
