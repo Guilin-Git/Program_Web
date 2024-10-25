@@ -1,6 +1,6 @@
 navigator.geolocation.getCurrentPosition((position) => {
     console.log(position);
-})
+});
 
 loadRegistros();
 
@@ -14,8 +14,12 @@ const btnBaterPonto = document.getElementById("btn-bater-ponto");
 const dialogPonto = document.getElementById("dialog-ponto");
 
 // Obtém referência da hora e data no dialog
-const dialogData = document.getElementById("dialog-data"); // Atualizado para o ID correto
-const dialogHora = document.getElementById("dialog-hora"); // Atualizado para o ID correto
+const dialogData = document.getElementById("dialog-data");
+const dialogHora = document.getElementById("dialog-hora");
+
+// Configura o campo de data para não permitir datas futuras
+const dataPonto = document.getElementById("dataPonto");
+dataPonto.max = getCurrentDateForInput(); // Configura o valor máximo
 
 // Atualiza o conteúdo do diálogo ao clicar no botão
 btnBaterPonto.addEventListener("click", () => {
@@ -45,10 +49,18 @@ btnFechar.addEventListener("click", () => {
     dialogPonto.close(); // Fecha o dialog
 });
 
+// Configura o botão de registrar ponto
 const btnRegistrarPonto = document.getElementById("btn-registrar");
 btnRegistrarPonto.addEventListener("click", () => {
+    console.log("Botão de registrar ponto clicado."); // Log para verificar se o botão foi clicado
     RegistroPonto();
     dialogPonto.close(); // Fecha o dialog após registrar o ponto
+});
+
+// Função para ir para a página de relatório
+const btnIrRelatorio = document.getElementById("btn-ir-relatorio");
+btnIrRelatorio.addEventListener("click", () => {
+    window.location.href = "relatorio.html"; 
 });
 
 // Atualiza as informações de data e hora fora do dialog
@@ -66,6 +78,14 @@ function getCurrentDate() {
         "/" +
         date.getFullYear()
     );
+}
+
+// Função para obter a data atual no formato YYYY-MM-DD, ajustado para o fuso horário local
+function getCurrentDateForInput() {
+    const date = new Date();
+    const timezoneOffset = new Date().getTimezoneOffset() * 60000; // Converte o offset para milissegundos
+    const localISOTime = new Date(Date.now() - timezoneOffset).toISOString().split("T")[0];
+    return localISOTime;
 }
 
 // Função para obter o dia da semana atual
@@ -99,22 +119,104 @@ setInterval(() => {
     }
 }, 1000);
 
+
+
+// Função para validar o CPF
+function validarCPF(cpf) {
+    cpf = cpf.replace(/\D/g, ''); // Remove caracteres não numéricos
+
+    // Verifica se o CPF tem 11 dígitos ou se todos os números são iguais
+    if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+
+    let soma = 0;
+    let resto;
+
+    // Calcula o primeiro dígito verificador
+    for (let i = 1; i <= 9; i++) {
+        soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+    }
+    resto = (soma * 10) % 11;
+    if ((resto === 10) || (resto === 11)) resto = 0;
+    if (resto !== parseInt(cpf.substring(9, 10))) return false;
+
+    soma = 0;
+
+    // Calcula o segundo dígito verificador
+    for (let i = 1; i <= 10; i++) {
+        soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+    }
+    resto = (soma * 10) % 11;
+    if ((resto === 10) || (resto === 11)) resto = 0;
+    if (resto !== parseInt(cpf.substring(10, 11))) return false;
+
+    return true;
+}
+
+
 // Inicializa a lista para armazenar os registros de ponto
 let registroPonto = [];
 
 // Inicializa a variável global para armazenar o último ponto registrado
 let ultimoRegistro = null;
 
-// Função para adicionar um ponto à lista de registros
 function RegistroPonto() {
     const agora = new Date();
     const id = Date.now(); // ID único baseado no timestamp atual
     
-    // Obtém a data e hora atual
-    const data = getCurrentDate();
+    // Verifica se o usuário selecionou uma data ou usa a atual
+    const dataSelecionada = dataPonto.value ? formatDateForDisplay(dataPonto.value) : getCurrentDate();
+    
+    // Obtém a data atual com fuso horário ajustado
+    const dataAtual = getCurrentDateForInput(); // Usa o formato YYYY-MM-DD
+    
+    // Verifica se a data selecionada é maior que a data atual
+    if (dataPonto.value > dataAtual) {
+        alert("Não é possível registrar um ponto em uma data futura.");
+        return; // Interrompe a execução se a data for inválida
+    }
+    
+    // Obtém a hora atual
     const hora = getCurrentTime();
     const select = document.getElementById("tipos-ponto").value;
-    
+
+    // Obtém o nome, sobrenome e CPF
+    const nome = document.getElementById("nome").value;
+    const sobrenome = document.getElementById("sobrenome").value;
+    const cpf = document.getElementById("cpf").value;
+
+    if (nome == '') {
+        alert("O nome é um campo obrigatório")
+        return;
+    }
+
+    if (sobrenome == '') {
+        alert("O sobrenome é um campo obrigatório")
+        return;
+    }
+
+     // Validação do CPF
+     if (!validarCPF(cpf)) {
+        alert("CPF inválido. Por favor, insira um CPF válido.");
+        return; // Interrompe o registro se o CPF for inválido
+    }
+
+    // Obtém a justificativa, se houver
+    const justificativa = document.getElementById("justificativa").value;
+    let nomeArquivo = '';
+
+    // Obtém o arquivo, se houver
+    const arquivo = document.getElementById('arquivo').files[0];
+    let arquivoUrl = '';
+
+    if (arquivo) {
+        nomeArquivo = arquivo.name;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            arquivoUrl = e.target.result; // Base64 do arquivo
+        };
+        reader.readAsDataURL(arquivo);
+    }
+
     // Obtém a localização
     navigator.geolocation.getCurrentPosition((position) => {
         const latitude = position.coords.latitude;
@@ -124,10 +226,17 @@ function RegistroPonto() {
         const registro = {
             id: id,
             select: select,
-            data: data,
+            data: dataSelecionada,
             hora: hora,
             latitude: latitude,
-            longitude: longitude
+            longitude: longitude,
+            nome: nome,
+            sobrenome: sobrenome,
+            cpf: cpf,
+            justificativa: justificativa || '',
+            arquivoUrl: arquivoUrl || '',
+            nomeArquivo: nomeArquivo || ''
+
         };
         
         // Adiciona o registro à lista
@@ -137,11 +246,14 @@ function RegistroPonto() {
         
         // Salva o registro no localStorage
         saveRegistroPonto(registro);
-        
+
         // Exibe a notificação
         showNotification(registro);
+    }, (error) => {
+        console.error("Erro ao obter localização: ", error);
     });
 }
+
 
 // Função para salvar o registro no localStorage
 function saveRegistroPonto(registro) {
@@ -155,11 +267,9 @@ function saveRegistroPonto(registro) {
     localStorage.setItem('registroPonto', JSON.stringify(registros));
 }
 
-// Função para carregar registros do localStorage (opcional)
+// Função para carregar registros do localStorage
 function loadRegistros() {
-
     const registros = JSON.parse(localStorage.getItem('registroPonto')) || [];
-    // Se precisar, pode usar essa lista para exibir registros salvos, etc.
     console.log('Registros carregados:', registros);
 }
 
@@ -185,3 +295,10 @@ function showNotification(registro) {
         notification.classList.remove("hide");
     }, 3500);
 }
+
+// Função para formatar a data no estilo brasileiro (dd/mm/yyyy)
+function formatDateForDisplay(dateStr) {
+    const [year, month, day] = dateStr.split("-");
+    return `${day}/${month}/${year}`;
+}
+

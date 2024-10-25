@@ -1,126 +1,151 @@
 /* Estilo geral do corpo */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte padrão para o corpo */
-    background-color: #f3f4f6; /* Cor de fundo suave lilás claro */
-    color: #333; /* Texto escuro */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f3f4f6;
+    color: #333;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    position: relative; /* Necessário para a posição absoluta da data-hora */
+    position: relative;
 }
 
 /* Estilo geral da área de data e hora */
 .data-hora {
-    position: absolute; /* Posiciona a div no canto superior esquerdo */
-    top: 20px; /* Espaço do topo */
-    left: 20px; /* Espaço da borda esquerda */
-    background-color: #ffffff; /* Cor de fundo branca */
-    padding: 20px; /* Espaçamento interno */
-    border-radius: 12px; /* Cantos arredondados */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    width: 320px; /* Largura fixa */
-    font-family: 'Poppins', sans-serif; /* Usa a fonte Poppins */
-    color: #4b0082; /* Texto roxo escuro */
-    text-align: center; /* Centraliza o texto */
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 320px;
+    font-family: 'Poppins', sans-serif;
+    color: #4b0082;
+    text-align: center;
 }
 
-/* Estilo dos parágrafos dentro de data-hora */
 .data-hora p {
-    margin: 10px 0; /* Espaçamento entre os parágrafos */
-    font-size: 24px; /* Tamanho da fonte */
-    font-weight: 400; /* Peso da fonte normal */
+    margin: 10px 0;
+    font-size: 24px;
+    font-weight: 400;
 }
 
-/* Estilo específico para o dia da semana */
 #diaSemana {
-    font-size: 28px; /* Tamanho da fonte maior */
-    font-weight: 600; /* Peso da fonte negrito */
-    color: #6a0dad; /* Cor roxa mais escura */
+    font-size: 28px;
+    font-weight: 600;
+    color: #6a0dad;
 }
 
-/* Estilo específico para a data */
 #diaMesAno {
-    font-size: 24px; /* Tamanho da fonte padrão */
-    color: #9b59b6; /* Cor lilás suave */
+    font-size: 24px;
+    color: #9b59b6;
 }
 
-/* Estilo específico para a hora */
 #horario {
-    font-size: 32px; /* Tamanho da fonte maior para destaque */
-    font-weight: 600; /* Peso da fonte negrito */
-    color: #8e44ad; /* Cor roxa intermediária */
+    font-size: 32px;
+    font-weight: 600;
+    color: #8e44ad;
 }
 
-/* Adiciona um pequeno espaçamento entre os elementos */
 .data-hora > p:not(:last-child) {
-    border-bottom: 1px solid #dcdcdc; /* Linha de separação suave */
-    padding-bottom: 10px; /* Espaço abaixo da linha de separação */
+    border-bottom: 1px solid #dcdcdc;
+    padding-bottom: 10px;
 }
 
-/* Estilo para a imagem abaixo da data e hora */
 .data-hora-imagem {
-
-    margin: 20px auto; /* Centraliza a imagem e adiciona espaço acima e abaixo */
-    max-width: 100%; /* Ajusta a imagem para caber dentro do contêiner */
-    
+    display: block; /* Torna a imagem um elemento de bloco */
+    margin: 20px auto; /* Centraliza horizontalmente */
+    max-width: 100%; /* Garante que a imagem não ultrapasse o tamanho do contêiner */
 }
 
-/* Estilo do botão de bater ponto */
-#btn-bater-ponto {
-    font-size: 50px; /* Tamanho da fonte do botão */
-    padding: 12px 24px; /* Espaçamento interno */
-    border: none; /* Remove bordas padrão */
+/* Colocar os botões um ao lado do outro */
+.button-container {
+    display: flex; /* Aplica flexbox */
+    justify-content: center; /* Centraliza os botões horizontalmente */
+    gap: 20px; /* Espaçamento entre os botões */
+    margin-top: 20px; /* Espaçamento superior */
+}
+
+
+
+input[type="text"],
+input[type="date"],
+textarea,
+input[type="file"] {
+    width: 100%; /* Largura completa */
+    padding: 10px; /* Espaçamento interno */
+    margin: 10px 0 20px 0; /* Espaço entre os campos */
+    border: 1px solid #dcdcdc; /* Borda cinza suave */
     border-radius: 8px; /* Cantos arredondados */
-    background-color: #9b59b6; /* Roxo suave */
-    color: white; /* Texto branco */
-    cursor: pointer; /* Indica que é clicável */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Transição suave */
-    margin: 20px; /* Espaçamento ao redor do botão */
+    font-size: 16px; /* Tamanho da fonte */
+    background-color: #f9f9f9; /* Fundo suave */
+    color: #333; /* Cor do texto */
+    box-sizing: border-box; /* Para garantir que o padding não afete o tamanho total */
+    transition: border-color 0.3s ease; /* Transição suave para a borda */
+}
+
+/* Efeito hover e foco nos campos */
+input[type="text"]:focus,
+input[type="date"]:focus,
+textarea:focus,
+input[type="file"]:focus {
+    border-color: #8e44ad; /* Borda roxa ao focar */
+    outline: none; /* Remove o outline padrão */
+}
+
+/* Estilo para o textarea (Justificativa) */
+textarea {
+    height: 100px; /* Altura ajustada */
+    resize: vertical; /* Permite redimensionar verticalmente */
+}
+
+/* Estilo dos labels para os campos */
+label {
+    font-size: 16px; /* Tamanho da fonte */
+    font-weight: 600; /* Peso da fonte */
+    color: #4b0082; /* Texto roxo escuro */
+    display: block; /* Exibe o label como bloco */
+    margin-bottom: 8px; /* Espaço abaixo do label */
+}
+
+/* Estilo para o botão de anexar arquivo */
+input[type="file"] {
+    padding: 5px; /* Pequeno padding para o botão */
+}
+
+/* Estilo geral para o select */
+select {
+    width: 100%; /* Largura completa */
+    padding: 10px; /* Espaçamento interno */
+    margin: 10px 0 20px 0; /* Espaço entre os campos */
+    border: 1px solid #dcdcdc; /* Borda cinza suave */
+    border-radius: 8px; /* Cantos arredondados */
+    font-size: 16px; /* Tamanho da fonte */
+    background-color: #f9f9f9; /* Fundo suave */
+    color: #333; /* Cor do texto */
+    transition: border-color 0.3s ease; /* Transição suave para a borda */
+}
+
+/* Efeito hover e foco no select */
+select:focus {
+    border-color: #8e44ad; /* Borda roxa ao focar */
+    outline: none; /* Remove o outline padrão */
+}
+button {
+    font-size: 50px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 20px auto;
     display: block;
-    margin: 0 auto;
 }
 
-/* Efeito hover para o botão de bater ponto */
-#btn-bater-ponto:hover {
-    background-color: #8e44ad; /* Roxo mais escuro */
-    transform: scale(1.05); /* Leve aumento ao passar o mouse */
-}
-
-/* Estilo do botão de registrar ponto */
-#btn-registrar {
-    font-size: 16px; /* Tamanho da fonte do botão */
-    padding: 10px 20px; /* Espaçamento interno */
-    border: 1px solid #8e44ad; /* Borda roxa */
-    border-radius: 8px; /* Cantos arredondados */
-    background-color: #ffffff; /* Fundo branco */
-    color: #8e44ad; /* Texto roxo */
-    cursor: pointer; /* Indica que é clicável */
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* Transição suave */
-}
-
-/* Efeito hover para o botão de registrar ponto */
-#btn-registrar:hover {
-    background-color: #8e44ad; /* Fundo roxo */
-    color: white; /* Texto branco */
-    transform: scale(1.05); /* Leve aumento ao passar o mouse */
-}
-
-/* Estilo do dialog */
-dialog {
-    border: none; /* Remove bordas padrão */
-    border-radius: 12px; /* Cantos arredondados */
-    background: #ffffff; /* Fundo branco */
-    padding: 20px; /* Espaçamento interno */
-    width: 90%;
-    max-width: 400px; /* Largura máxima */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    position: relative; /* Necessário para posicionar o botão de fechar */
-}
-
-/* Estilo do botão de fechar no dialog */
 #btn-fechar {
     position: absolute;
     top: 10px;
@@ -128,58 +153,52 @@ dialog {
     background: transparent;
     border: none;
     font-size: 20px;
-    color: #8e44ad; /* Cor roxa */
+    color: #8e44ad;
     cursor: pointer;
 }
 
-/* Efeito hover para o botão de fechar */
 #btn-fechar:hover {
-    color: #d9534f; /* Vermelho ao passar o mouse */
+    color: #d9534f;
 }
 
-/* Estilo do conteúdo do dialog */
 #dialog-data, #dialog-hora {
-    font-size: 18px; /* Tamanho da fonte dos detalhes */
-    margin-bottom: 15px; /* Espaçamento entre os detalhes */
-    color: #4b0082; /* Texto roxo escuro */
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #4b0082;
 }
 
-/* Container para o select e o botão */
 .container {
     display: flex;
     align-items: center;
-    gap: 12px; /* Espaço entre o select e o botão */
+    gap: 12px;
     margin-top: 20px;
 }
 
-/* Estilo para o select */
 #tipos-ponto {
     flex: 1;
-    height: 40px; /* Altura ajustada */
-    font-size: 16px; /* Tamanho da fonte ajustado */
+    height: 40px;
+    font-size: 16px;
     padding: 8px;
-    border: 1px solid #dcdcdc; /* Borda cinza suave */
-    border-radius: 4px; /* Cantos arredondados */
-    background-color: #f9f9f9; /* Cor de fundo suave */
-    color: #333; /* Cor do texto do select */
-    transition: border-color 0.3s ease; /* Transição suave para a borda */
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: border-color 0.3s ease;
 }
 
-/* Efeito hover para o select */
 #tipos-ponto:hover {
-    border-color: #8e44ad; /* Borda roxa ao passar o mouse */
+    border-color: #8e44ad;
 }
 
-/* CSS para a caixa de notificação */
 .notification {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #ffffff; /* Fundo branco */
-    color: #4b0082; /* Texto roxo escuro */
+    background-color: #ffffff;
+    color: #4b0082;
     padding: 15px 20px;
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     opacity: 0;
     transition: opacity 0.5s ease, transform 0.5s ease;
     z-index: 1000;
@@ -188,14 +207,46 @@ dialog {
     text-align: center;
 }
 
-/* Estado visível da notificação */
 .notification.show {
     opacity: 1;
     transform: translateY(0);
 }
 
-/* Estado oculto da notificação */
 .notification.hide {
     opacity: 0;
     transform: translateY(20px);
+}
+button {
+    font-size: 50px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 20px auto;
+    display: block;
+}
+
+#btn-bater-ponto {
+    background-color: #9b59b6;
+}
+
+#btn-bater-ponto:hover {
+    background-color: #8e44ad;
+    transform: scale(1.05);
+}
+
+#btn-ir-relatorio {
+    background-color: #6a0dad;
+}
+
+#btn-ir-relatorio:hover {
+    background-color: #5a0a9e;
+    transform: scale(1.05);
+}
+#btn-registrar {
+    background-color: #9b59b6;
+    font-size: 20px; /* Diminui o tamanho da fonte */
+    padding: 8px 16px; /* Diminui o padding */
 }

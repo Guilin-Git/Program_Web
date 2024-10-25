@@ -1,0 +1,85 @@
+/* Estilo geral do corpo */
+body {
+    font-family: 'Poppins', sans-serif; /* Fonte padrão para o corpo */
+    background-color: #f3f4f6; /* Cor de fundo suave */
+    color: #333; /* Texto escuro */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* Alinha os elementos verticalmente */
+    align-items: center; /* Centraliza horizontalmente */
+    min-height: 100vh; /* Garante que o corpo ocupe toda a altura da tela */
+}
+
+/* Estilo do título */
+h1 {
+    color: #4b0082; /* Cor roxa escura */
+    margin: 20px 0; /* Margem ao redor do título */
+}
+
+/* Estilo da tabela */
+table {
+    width: 95%; /* Largura da tabela */
+    border-collapse: collapse; /* Remove espaço entre células */
+    margin-top: 20px; /* Margem superior */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    border-radius: 12px; /* Cantos arredondados */
+    overflow: hidden; /* Esconde bordas arredondadas */
+}
+
+/* Estilo das células da tabela */
+th, td {
+    border: 1px solid #ddd; /* Borda suave */
+    padding: 12px; /* Espaçamento interno */
+    text-align: left; /* Alinhamento do texto */
+}
+
+/* Estilo do cabeçalho da tabela */
+th {
+    background-color: #f4f4f4; /* Cor de fundo para o cabeçalho */
+    color: #6a0dad; /* Cor roxa */
+}
+
+/* Estilo para datas passadas */
+.data-passada {
+    background-color: #f8d7da; /* Cor de fundo vermelho claro para destacar registros passados */
+    color: #721c24; /* Cor do texto vermelho escuro */
+}
+
+
+/* Estilo para registros com observação */
+.observado {
+    background-color: #f2e6ff; /* Cor de fundo lilás claro para observações */
+}
+
+
+/* Estilo do botão */
+button {
+    font-size: 18px; /* Tamanho da fonte do botão */
+    padding: 10px 20px; /* Espaçamento interno */
+    border: none; /* Remove bordas padrão */
+    border-radius: 8px; /* Cantos arredondados */
+    background-color: #9b59b6; /* Roxo suave */
+    color: white; /* Texto branco */
+    cursor: pointer; /* Indica que é clicável */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transição suave */
+    margin-top: 20px; /* Margem superior */
+}
+
+/* Efeito hover para o botão */
+button:hover {
+    background-color: #8e44ad; /* Roxo mais escuro */
+    transform: scale(1.05); /* Leve aumento ao passar o mouse */
+}
+
+.data-separador {
+    font-weight: bold;
+    background-color: #f0f0f0; /* ou qualquer cor desejada */
+    text-align: center;
+}
+
+.registro-editado {
+    background-color: #fff3cd; /* Cor de fundo diferenciada */
+    color: #856404; /* Cor de texto mais escura */
+    font-weight: bold; /* Texto em negrito */
+}

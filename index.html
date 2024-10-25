@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de controle de ponto</title>
+    <title>Sistema de Controle de Ponto</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -14,27 +14,56 @@
         <p id="diaMesAno"></p>
     </div>
     <img src="images/Marca-ceub-versao-positiva-lilas-1024x791.png" alt="Descrição da Imagem" class="data-hora-imagem">
-    <button id="btn-bater-ponto">Bater Ponto!</button> 
+    
+    <div class="button-container">
+        <button id="btn-bater-ponto">Bater Ponto</button>
+        <button id="btn-ir-relatorio">Ir para Relatório</button>
+    </div> <!-- Novo botão para ir à página de relatório -->
     
     <dialog id="dialog-ponto">
         <p id="dialog-data">Data</p>
         <p id="dialog-hora">Hora</p>
+        
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+
+        <label for="sobrenome">Sobrenome:</label>
+        <input type="text" id="sobrenome" name="sobrenome" required>
+
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" name="cpf" placeholder="XXX.XXX.XXX-XX" required>
+
+        <label for="dataPonto">Selecione uma data para o ponto:</label>
+        <input type="date" id="dataPonto" name="dataPonto" max="">
+
         <select name="tipos-ponto" id="tipos-ponto">
             <option value="entrada">Entrada</option>
             <option value="intervalo">Intervalo</option>
             <option value="volta-intervalo">Volta do Intervalo</option>
             <option value="saida">Saída</option>
         </select>
-        <button id="btn-registrar">Registrar Ponto</button> 
+
+        <label for="justificativa">Justificativa (opcional):</label>
+        <textarea id="justificativa" placeholder="Justifique sua falta aqui"></textarea>
+
+        <label for="arquivo">Anexar Arquivo (opcional):</label>
+        <input type="file" id="arquivo">
+
+
+        <button id="btn-registrar">Registrar Ponto</button>
+
         <p id="ultimoRegistroTitulo"></p>
         <p id="ultimoRegistroTipo"></p>
         <p id="ultimoRegistroData"></p>
         <p id="ultimoRegistroHora"></p>  
+
         <button id="btn-fechar">X</button>
     </dialog>
+
     <div id="notification" class="notification">
         <p id="notification-content"></p>
     </div>   
+
     <script src="js/index.js"></script>
 </body> 
 </html>

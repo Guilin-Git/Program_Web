@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registros de Pontos</title>
+    <link rel="stylesheet" href="css/styleRelatorio.css">
+</head>
+<body>
+    <h1>Registros de Pontos</h1>
+
+    <label for="filtro-periodo">Filtrar por período:</label>
+    <select id="filtro-periodo" onchange="loadRegistros()">
+        <option value="todos">Todos</option>
+        <option value="ultima-semana">Última Semana</option>
+        <option value="ultimo-mes">Último Mês</option>
+    </select>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Sobrenome</th>
+                <th>CPF</th>
+                <th>Tipo</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Observação</th>
+                <th>Justificativa</th>
+                <th>Arquivo</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-registros"></tbody>
+    </table>
+    <button onclick="window.location.href='index.html'">Voltar</button>
+
+    <!-- Modal de Edição -->
+    <dialog id="modal-edicao">
+        <form method="dialog">
+            <label for="modal-select">Selecionar:</label>
+            <select id="modal-select" required>
+                <option value="entrada">Entrada</option>
+                <option value="intervalo">Intervalo</option>
+                <option value="volta-intervalo">Volta do Intervalo</option>
+                <option value="saida">Saída</option>
+            </select>
+            
+            <label for="modal-data">Data:</label>
+            <input type="date" id="modal-data" required>
+            
+            <label for="modal-hora">Hora:</label>
+            <input type="number" id="modal-hora" min="0" max="23" placeholder="HH" required> :
+            <input type="number" id="modal-minuto" min="0" max="59" placeholder="MM" required> :
+            <input type="number" id="modal-segundo" min="0" max="59" placeholder="SS" required>
+            
+            <label for="modal-latitude">Latitude:</label>
+            <input type="text" id="modal-latitude" required>
+            
+            <label for="modal-longitude">Longitude:</label>
+            <input type="text" id="modal-longitude" required>
+            
+            <label for="modal-observacao">Observação:</label>
+            <input type="text" id="modal-observacao">
+            
+            <input type="hidden" id="modal-index">
+            <button type="submit" onclick="salvarEdicao()">Salvar</button>
+            <button type="button" id="btn-fechar-modal">Fechar</button>
+        </form>
+    </dialog>
+
+    <script src="js/relatorio.js"></script>
+</body>
+</html>
