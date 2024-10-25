@@ -7,7 +7,7 @@ function loadRegistros() {
     tabela.innerHTML = '';
 
     const filtroPeriodo = document.getElementById('filtro-periodo').value;
-    const hoje = new Date(); // A data e hora local do sistema
+    const hoje = new Date();
 
     let dataLimite;
     if (filtroPeriodo === 'ultima-semana') {
@@ -21,11 +21,9 @@ function loadRegistros() {
     }
 
     registros.forEach((registro, index) => {
-        // Converte a data do registro de dd/mm/yyyy para um objeto Date
         const partesData = registro.data.split('/');
-        const dataRegistro = new Date(`${partesData[2]}-${partesData[1]}-${partesData[0]}T00:00:00`); // Horário definido para meia-noite
+        const dataRegistro = new Date(`${partesData[2]}-${partesData[1]}-${partesData[0]}T00:00:00`);
 
-        // Verifica se a data está dentro do período selecionado e não é futura
         if ((!dataLimite || dataRegistro >= dataLimite) && dataRegistro <= hoje) {
             const tr = document.createElement('tr');
 
@@ -35,7 +33,6 @@ function loadRegistros() {
             
             const observacaoClass = registro.observacao ? 'observado' : '';
 
-            // Verifica se a data é a data de hoje ou é passada
             const dataHojeClass = dataRegistro.toDateString() === hoje.toDateString() ? 'data-hoje' : '';
             const dataPassadaClass = dataRegistro < hoje && dataHojeClass === '' ? 'data-passada' : '';
 
@@ -74,22 +71,19 @@ function adicionarObservacao(index, observacao) {
     const registros = JSON.parse(localStorage.getItem('registroPonto')) || [];
     registros[index].observacao = observacao;
 
-    // Atualiza a flag de editado
-    registros[index].editado = observacao !== ''; // Se a observação estiver vazia, não é editado
+    registros[index].editado = observacao !== '';
 
     localStorage.setItem('registroPonto', JSON.stringify(registros));
-    loadRegistros(); // Recarrega a tabela
+    loadRegistros();
 }
 
 function abrirModalEdicao(index) {
     const registros = JSON.parse(localStorage.getItem('registroPonto')) || [];
     const registro = registros[index];
 
-    // Preenche o modal com os dados do registro
     document.getElementById('modal-select').value = registro.select;
-    document.getElementById('modal-data').value = registro.data.split('/').reverse().join('-'); // Corrigido para o formato yyyy-mm-dd
+    document.getElementById('modal-data').value = registro.data.split('/').reverse().join('-');
 
-    // Divide a hora em horas, minutos e segundos
     const [hora, minuto, segundo] = registro.hora.split(':');
     document.getElementById('modal-hora').value = hora || '00';
     document.getElementById('modal-minuto').value = minuto || '00';
@@ -99,10 +93,8 @@ function abrirModalEdicao(index) {
     document.getElementById('modal-longitude').value = registro.longitude;
     document.getElementById('modal-observacao').value = registro.observacao || '';
 
-    // Define o índice do registro para salvar as edições
     document.getElementById('modal-index').value = index;
 
-    // Abre o modal
     document.getElementById('modal-edicao').showModal();
 }
 
@@ -110,39 +102,36 @@ function salvarEdicao() {
     const index = document.getElementById('modal-index').value;
     const registros = JSON.parse(localStorage.getItem('registroPonto')) || [];
 
-    // Atualiza os valores do registro
     registros[index].select = document.getElementById('modal-select').value;
 
-    // Obtém a data e garante que não é futura
     const novaData = document.getElementById('modal-data').value;
 
     const hoje = new Date();
     const timezoneOffset = hoje.getTimezoneOffset() * 60000;
-    const dataAtual = new Date(Date.now() - timezoneOffset).toISOString().split('T')[0]; // Formato yyyy-mm-dd
+    const dataAtual = new Date(Date.now() - timezoneOffset).toISOString().split('T')[0];
 
     if (novaData > dataAtual) {
         alert('A data não pode ser no futuro.');
-        return; // Não salva se a data for no futuro
+        return;
     }
 
-    registros[index].data = formatarData(novaData); // Formata a data para dd/mm/yyyy
+    registros[index].data = formatarData(novaData);
 
     registros[index].hora = `${document.getElementById('modal-hora').value}:${document.getElementById('modal-minuto').value}:${document.getElementById('modal-segundo').value}`;
     registros[index].latitude = document.getElementById('modal-latitude').value;
     registros[index].longitude = document.getElementById('modal-longitude').value;
     registros[index].observacao = document.getElementById('modal-observacao').value;
 
-    // Atualiza a flag de editado
     registros[index].editado = true;
 
     localStorage.setItem('registroPonto', JSON.stringify(registros));
-    loadRegistros(); // Recarrega a tabela
-    document.getElementById('modal-edicao').close(); // Fecha o modal
+    loadRegistros();
+    document.getElementById('modal-edicao').close();
 }
 
 function formatarData(data) {
     const [ano, mes, dia] = data.split('-');
-    return `${dia}/${mes}/${ano}`; // Formato dd/mm/yyyy
+    return `${dia}/${mes}/${ano}`;
 }
 
 document.getElementById('btn-fechar-modal').addEventListener('click', () => {
@@ -150,7 +139,7 @@ document.getElementById('btn-fechar-modal').addEventListener('click', () => {
 });
 
 function filtrarRegistros() {
-    loadRegistros(); // Recarrega os registros com base no filtro selecionado
+    loadRegistros();
 }
 
 function deletarRegistro(index) {
